@@ -12,3 +12,52 @@
 [INFO]2020/12/22 23:12:13 updaterFunc.go:297: 最新版本信息%!(EXTRA tools.Version_list={windows 5.4.6.3 90 532173ff12bbb1e81c8e4a04b2369e5b http://123.57.105.167/audit-5.4.6.3.zip})
 [INFO]2020/12/22 23:12:13 updaterFunc.go:322: 已经是最新版本,准备退出
 [INFO]2020/12/22 23:12:13 updater.go:58: 不用更新，准备退出...
+[INFO]2020/12/22 23:15:46 updater.go:46: Check_url=%!(EXTRA string=http://123.57.105.167/check_version.json, string= Install_root=, string=C:\Users\long\Desktop\localfile\install_root)
+[INFO]2020/12/22 23:15:46 updater.go:47: Log_path=%!(EXTRA string=log.txt, string= Current_version=, string=5.4.6.3)
+[INFO]2020/12/22 23:15:46 updaterFunc.go:230: 请求版本列表...
+[INFO]2020/12/22 23:15:46 updaterFunc.go:222: 生成http头部...
+[INFO]2020/12/22 23:15:46 updaterFunc.go:224: http头部生成成功
+[INFO]2020/12/22 23:15:46 updaterFunc.go:242: 200
+[INFO]2020/12/22 23:15:46 updaterFunc.go:256: 版本列表请求成功
+[INFO]2020/12/22 23:15:46 updaterFunc.go:262: 开始获取最新版本...
+[INFO]2020/12/22 23:15:46 updaterFunc.go:271: [{windows 2.4.6.3 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {windows 2.4.6.2 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {windows 2.4.5.3 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {windows 2.3.6.3 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {windows 5.4.6.3 %!s(int=90) 532173ff12bbb1e81c8e4a04b2369e5b http://123.57.105.167/audit-5.4.6.3.zip} {linux 2.4.6.3 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {linux 2.4.6.2 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {linux 2.4.5.3 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {linux 2.3.6.3 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {linux 5.4.6.3 %!s(int=90) ae95f1796647e3e4077169da516830e7 http://123.57.105.167/audit-2.4.6.3.zip}]
+[INFO]2020/12/22 23:15:46 updaterFunc.go:275: 查询最新版本...
+[INFO]2020/12/22 23:15:46 updaterFunc.go:286: 最新版本%!(EXTRA string=5.4.6.3)
+[INFO]2020/12/22 23:15:46 updaterFunc.go:297: 最新版本信息%!(EXTRA tools.Version_list={windows 5.4.6.3 90 532173ff12bbb1e81c8e4a04b2369e5b http://123.57.105.167/audit-5.4.6.3.zip})
+[INFO]2020/12/22 23:15:46 updaterFunc.go:322: 已经是最新版本,准备退出
+[INFO]2020/12/22 23:15:46 updater.go:58: 不用更新，准备退出...
+[INFO]2020/12/22 23:17:52 updater.go:46: Check_url=%!(EXTRA string=http://123.57.105.167/check_version.json, string= Install_root=, string=C:\Users\long\Desktop\localfile\install_root)
+[INFO]2020/12/22 23:17:52 updater.go:47: Log_path=%!(EXTRA string=log.txt, string= Current_version=, string=)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:230: 请求版本列表...
+[INFO]2020/12/22 23:17:52 updaterFunc.go:222: 生成http头部...
+[INFO]2020/12/22 23:17:52 updaterFunc.go:224: http头部生成成功
+[INFO]2020/12/22 23:17:52 updaterFunc.go:242: 200
+[INFO]2020/12/22 23:17:52 updaterFunc.go:256: 版本列表请求成功
+[INFO]2020/12/22 23:17:52 updaterFunc.go:262: 开始获取最新版本...
+[INFO]2020/12/22 23:17:52 updaterFunc.go:271: [{windows 2.4.6.3 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {windows 2.4.6.2 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {windows 2.4.5.3 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {windows 2.3.6.3 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {windows 5.4.6.3 %!s(int=90) 532173ff12bbb1e81c8e4a04b2369e5b http://123.57.105.167/audit-5.4.6.3.zip} {linux 2.4.6.3 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {linux 2.4.6.2 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {linux 2.4.5.3 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {linux 2.3.6.3 %!s(int=90) 194CE5D0B89C47FF6B30BFB491F9DC26 http://123.57.105.167/audit-2.4.6.3.zip} {linux 5.4.6.3 %!s(int=90) ae95f1796647e3e4077169da516830e7 http://123.57.105.167/audit-2.4.6.3.zip}]
+[INFO]2020/12/22 23:17:52 updaterFunc.go:275: 查询最新版本...
+[INFO]2020/12/22 23:17:52 updaterFunc.go:286: 最新版本%!(EXTRA string=5.4.6.3)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:297: 最新版本信息%!(EXTRA tools.Version_list={windows 5.4.6.3 90 532173ff12bbb1e81c8e4a04b2369e5b http://123.57.105.167/audit-5.4.6.3.zip})
+[INFO]2020/12/22 23:17:52 updaterFunc.go:302: 正在检查主机位置...
+[INFO]2020/12/22 23:17:52 updaterFunc.go:348: 检查percent_rate...
+[INFO]2020/12/22 23:17:52 updaterFunc.go:360: 更新比例：%!(EXTRA int=90, string= 本地种子：, int=71)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:206: 正在下载服务器数据...
+[INFO]2020/12/22 23:17:52 updaterFunc.go:217: 服务器数据下载成功
+[INFO]2020/12/22 23:17:52 updaterFunc.go:370: 文件md5校验...
+[INFO]2020/12/22 23:17:52 updater.go:65: 远程文件md5：%!(EXTRA string=532173ff12bbb1e81c8e4a04b2369e5b)
+[INFO]2020/12/22 23:17:52 updater.go:68: md5校验成功
+[INFO]2020/12/22 23:17:52 updaterFunc.go:387: 开始解压...
+[INFO]2020/12/22 23:17:52 updaterFunc.go:419: 正在提取: %!(EXTRA string=bin-5.4.6.3/test (1) - 副本 - 副本.png)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:419: 正在提取: %!(EXTRA string=bin-5.4.6.3/test (1) - 副本.png)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:419: 正在提取: %!(EXTRA string=bin-5.4.6.3/test (2) - 副本 - 副本.png)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:419: 正在提取: %!(EXTRA string=bin-5.4.6.3/test (3) - 副本 - 副本.png)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:419: 正在提取: %!(EXTRA string=bin-5.4.6.3/test (4) - 副本 - 副本.png)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:419: 正在提取: %!(EXTRA string=bin-5.4.6.3/test (5) - 副本 - 副本.png)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:419: 正在提取: %!(EXTRA string=bin-5.4.6.3/test (6) - 副本 - 副本.png)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:419: 正在提取: %!(EXTRA string=bin-5.4.6.3/test (7) - 副本 - 副本.png)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:419: 正在提取: %!(EXTRA string=bin-5.4.6.3/test (8) - 副本 - 副本.png)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:419: 正在提取: %!(EXTRA string=bin-5.4.6.3/test (9) - 副本 - 副本.png)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:419: 正在提取: %!(EXTRA string=launch.exe)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:419: 正在提取: %!(EXTRA string=version)
+[INFO]2020/12/22 23:17:52 updaterFunc.go:442: 解压完成
+[INFO]2020/12/22 23:17:52 updater.go:70: 自动更新完成
