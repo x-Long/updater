@@ -4,7 +4,6 @@ import "os"
 import "path"
 import "path/filepath"
 import . "updater/tools"
-import . "updater/tests"
 import "strings"
 
 func main() {
