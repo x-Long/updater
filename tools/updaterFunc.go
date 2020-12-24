@@ -82,7 +82,7 @@ var (
 	Is_test         bool
 	Config          string
 	Version_path    string
-	Beta_hosts		string
+	Beta_hosts      string
 )
 
 type Version_list struct {
@@ -99,14 +99,14 @@ func Read_config(path string) map[string]string {
 	f, err := os.Open(path)
 	defer f.Close()
 	if err != nil {
-		
+
 		if Check_url == "" {
 			log.Printf("read error:", "路径错误,请将配置文件config.ini放在程序同一目录下,或手动指定正确的目录")
 			usage()
 			os.Exit(2)
 		}
-		config["check_url"]=""
-		config["beta_hosts"]=""
+		config["check_url"] = ""
+		config["beta_hosts"] = ""
 		return config
 	}
 
