@@ -23,6 +23,9 @@ func main() {
 		if value == "--install_root" {
 			Install_root = os.Args[index+1]
 		}
+		if value == "--check_url" {
+			Check_url = os.Args[index+1]
+		}
 	}
 	if Install_root == "" {
 		Install_root, _ = filepath.Abs(filepath.Dir(os.Args[0]))

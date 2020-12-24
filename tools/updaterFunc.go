@@ -82,6 +82,7 @@ var (
 	Is_test         bool
 	Config          string
 	Version_path    string
+	Beta_hosts		string
 )
 
 type Version_list struct {
@@ -98,9 +99,15 @@ func Read_config(path string) map[string]string {
 	f, err := os.Open(path)
 	defer f.Close()
 	if err != nil {
-		log.Printf("read error:", "路径错误,请将配置文件config.ini放在程序同一目录下,或手动指定正确的目录")
-		os.Exit(2)
-		panic(err)
+		
+		if Check_url == "" {
+			log.Printf("read error:", "路径错误,请将配置文件config.ini放在程序同一目录下,或手动指定正确的目录")
+			usage()
+			os.Exit(2)
+		}
+		config["check_url"]=""
+		config["beta_hosts"]=""
+		return config
 	}
 
 	r := bufio.NewReader(f)
@@ -130,6 +137,7 @@ func Read_config(path string) map[string]string {
 		config[key] = value
 	}
 	Check_url = config["check_url"]
+	Beta_hosts = config["beta_hosts"]
 	// Install_root = config["install_root"]
 	// Log_path = config["log_path"]
 	// Current_version= config["current_version"]
@@ -187,8 +195,6 @@ func Command_line() {
 	flag.StringVar(&Log_path, "log_path", Log_path, " ")
 	flag.StringVar(&Current_version, "current_version", Current_version, " ")
 	flag.StringVar(&Version_path, "version_path", "", " ")
-
-	// flag.BoolVar(&Is_test, "test", false, " ")
 	flag.StringVar(&Config, "config", Config, " ")
 	flag.Usage = usage
 	flag.Parse()
@@ -256,14 +262,13 @@ func Get_check_version(url string) string {
 	reqest.Header.Add("User-Agent", Get_http_header())
 
 	if err != nil {
-		ErrorLogger.Printf("版本列表请求失败,请检查网络")
+		ErrorLogger.Printf("版本列表请求失败,请检查网络或check_url")
 		os.Exit(2)
 		panic(err)
 	}
 	res, err1 := client.Do(reqest)
-	InfoLogger.Printf("%v", res.StatusCode)
 	if err1 != nil {
-		ErrorLogger.Printf("版本列表请求失败,请检查网络")
+		ErrorLogger.Printf("版本列表请求失败,请检查网络或check_url")
 		os.Exit(2)
 		panic(err)
 	}
@@ -345,44 +350,24 @@ func Is_need_update(latest_version Version_list) bool {
 		return need
 	}
 
-	fd, err := os.Open(Config)
+	if Is_in_betahost(latest_version.Url, Beta_hosts) {
+		need = true
+		return need
+	} else {
+		InfoLogger.Printf("检查percent_rate...")
+		// 检查家目录
+		user, _ := user.Current()
 
-	defer fd.Close()
+		r := []uint8(user.HomeDir)
+		var b int
+		for _, value := range r {
 
-	if err != nil {
-		ErrorLogger.Printf("read error:", "路径错误,请将配置文件config.ini放在程序同一目录下,或手动指定正确的目录")
-		os.Exit(2)
-		panic(err)
-
-	}
-	buff := bufio.NewReader(fd)
-
-	for {
-		data, _, eof := buff.ReadLine()
-		if eof == io.EOF {
-			break
+			b += int(value)
 		}
-		if strings.Contains(string(data), "beta_hosts") {
-			if Is_in_betahost(latest_version.Url, string(data)) {
-				need = true
-				break
-			} else {
-				InfoLogger.Printf("检查percent_rate...")
-				// 检查家目录
-				user, _ := user.Current()
-
-				r := []uint8(user.HomeDir)
-				var b int
-				for _, value := range r {
-
-					b += int(value)
-				}
-				lucky_number := b % 100
-				can_update := lucky_number <= latest_version.Update_percent
-				InfoLogger.Printf("更新比例：", latest_version.Update_percent, " 本地种子：", lucky_number)
-				need = can_update
-			}
-		}
+		lucky_number := b % 100
+		can_update := lucky_number <= latest_version.Update_percent
+		InfoLogger.Printf("更新比例：", latest_version.Update_percent, " 本地种子：", lucky_number)
+		need = can_update
 	}
 	return need
 }
