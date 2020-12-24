@@ -277,6 +277,12 @@ func Get_check_version(url string) string {
 
 	robots, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
+
+	InfoLogger.Printf("%v", res.StatusCode)
+	if res.StatusCode != 200 {
+		ErrorLogger.Printf("error:", "获取版本列表失败,请检查网络或Check_url")
+		os.Exit(2)
+	}
 	if err != nil {
 		panic(err)
 	}
