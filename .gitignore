@@ -1,2 +1,3 @@
 localfile  
-updater.exe
+*.exe
+.idea
