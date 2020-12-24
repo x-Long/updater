@@ -25,7 +25,8 @@ git clone https://github.com/x-Long/updater
 
 ```bash
 cd home_path/go/src/updater
-go build -ldflags="-w -s" updater.go 
+go build -ldflags="-w -s" updater.go	# 编译生成updater.exe
+.\upx\upx.exe -9 updater.exe	# 对updater.exe 进行压缩
 ```
 
 ## 3、运行

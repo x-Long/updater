@@ -4,7 +4,6 @@ import "os"
 import . "updater/tools"
 import . "updater/tests"
 
-
 func main() {
 
 	Command_line()

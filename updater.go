@@ -23,16 +23,16 @@ func main() {
 		if value == "--install_root" {
 			Install_root = os.Args[index+1]
 		}
-
 	}
-
+	if Install_root == "" {
+		Install_root, _ = filepath.Abs(filepath.Dir(os.Args[0]))
+	}
 	if Config == "" {
 		Config, _ = filepath.Abs(filepath.Dir(os.Args[0]))
 		Config = Config + "/config.ini"
 	}
 
 	Read_config(Config)
-
 	Command_line()
 	Log_init()
 

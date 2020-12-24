@@ -8,6 +8,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"flag"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -97,7 +98,7 @@ func Read_config(path string) map[string]string {
 	f, err := os.Open(path)
 	defer f.Close()
 	if err != nil {
-		log.Printf("read error:", "路径错误，请将配置文件config.ini放在程序同一目录下,或手动指定正确的目录")
+		log.Printf("read error:", "路径错误,请将配置文件config.ini放在程序同一目录下,或手动指定正确的目录")
 		os.Exit(2)
 		panic(err)
 	}
@@ -109,7 +110,7 @@ func Read_config(path string) map[string]string {
 			if err == io.EOF {
 				break
 			}
-			log.Printf("read error:", "路径错误，请将配置文件config.ini放在程序同一目录下,或手动指定正确的目录")
+			log.Printf("read error:", "路径错误,请将配置文件config.ini放在程序同一目录下,或手动指定正确的目录")
 			os.Exit(2)
 			panic(err)
 		}
@@ -185,19 +186,40 @@ func Command_line() {
 	flag.StringVar(&Install_root, "install_root", Install_root, " ")
 	flag.StringVar(&Log_path, "log_path", Log_path, " ")
 	flag.StringVar(&Current_version, "current_version", Current_version, " ")
-
 	flag.StringVar(&Version_path, "version_path", "", " ")
 
-	flag.BoolVar(&Is_test, "test", false, " ")
+	// flag.BoolVar(&Is_test, "test", false, " ")
 	flag.StringVar(&Config, "config", Config, " ")
+	flag.Usage = usage
 	flag.Parse()
+
+}
+
+func usage() {
+	updater_path, _ := filepath.Abs(os.Args[0])
+	fmt.Println("Usage of " + updater_path + ":")
+	fmt.Println("  " + "--help")
+	fmt.Println("		" + "(帮助信息)")
+
+	fmt.Println("  " + "--install_root")
+	fmt.Println("		" + "(待升级程序的安装目录,若未指定,默认为updater.exe所在目录)")
+	fmt.Println("  " + "--log_path")
+	fmt.Println("		" + "(日志路径)")
+	fmt.Println("  " + "--config")
+	fmt.Println("		" + "(配置文件目录,若未指定,默认读取updater.exe同级目录下的config.ini文件)")
+	fmt.Println("  " + "--check_url")
+	fmt.Println("		" + "(获取版本json文件的url,若未指定,默认从config.ini中读取check_url字段)")
+	fmt.Println("  " + "--current_version")
+	fmt.Println("		" + "(当前版本,版本信息的优先级：current_version > version_path > 安装目录下的version文件)")
+	fmt.Println("  " + "--version_path")
+	fmt.Println("		" + "(记录当前版本的文件,版本信息的优先级：current_version > version_path > 安装目录下的version文件))")
 
 }
 
 func Download_update_file(Install_root, url string) string {
 	res, err := http.Get(url)
 	if err != nil {
-		ErrorLogger.Printf("获取版本列表失败，请检查网络或Check_url")
+		ErrorLogger.Printf("获取版本列表失败,请检查网络或Check_url")
 		os.Exit(2)
 		panic(err)
 	}
@@ -234,14 +256,14 @@ func Get_check_version(url string) string {
 	reqest.Header.Add("User-Agent", Get_http_header())
 
 	if err != nil {
-		ErrorLogger.Printf("版本列表请求失败，请检查网络")
+		ErrorLogger.Printf("版本列表请求失败,请检查网络")
 		os.Exit(2)
 		panic(err)
 	}
 	res, err1 := client.Do(reqest)
 	InfoLogger.Printf("%v", res.StatusCode)
 	if err1 != nil {
-		ErrorLogger.Printf("版本列表请求失败，请检查网络")
+		ErrorLogger.Printf("版本列表请求失败,请检查网络")
 		os.Exit(2)
 		panic(err)
 	}
@@ -264,7 +286,7 @@ func Get_latest_update(remote_version_json string) Version_list {
 	var jsonBlob = []byte(remote_version_json)
 	err1 := json.Unmarshal(jsonBlob, &version_list)
 	if err1 != nil {
-		ErrorLogger.Printf("error:", "获取版本列表失败，请检查网络或Check_url")
+		ErrorLogger.Printf("error:", "获取版本列表失败,请检查网络或Check_url")
 		os.Exit(2)
 		panic(err1)
 	}
@@ -328,7 +350,7 @@ func Is_need_update(latest_version Version_list) bool {
 	defer fd.Close()
 
 	if err != nil {
-		ErrorLogger.Printf("read error:", "路径错误，请将配置文件config.ini放在程序同一目录下,或手动指定正确的目录")
+		ErrorLogger.Printf("read error:", "路径错误,请将配置文件config.ini放在程序同一目录下,或手动指定正确的目录")
 		os.Exit(2)
 		panic(err)
 
