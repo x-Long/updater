@@ -55,7 +55,7 @@ go build -ldflags="-w -s" updater.go
 
 ```bash
 cd home_path/go/src/updater       # 在updater目录下测试
-./updater.exe test
+go run .\test_updater.go
 ```
 ## 6、退出代码
 
