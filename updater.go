@@ -14,12 +14,6 @@ func main() {
 	go_path = Getparentdirectory(go_path)
 	os.Setenv("GOPATH", go_path)
 
-	if len(os.Args) == 2 && os.Args[1] == "test" {
-		Command_line()
-		Test_updater()
-		os.Exit(0)
-	}
-
 	for index, value := range os.Args {
 		if value == "--config" {
 			Config = os.Args[index+1]
