@@ -1,0 +1,4 @@
+beta_hosts = test_1.com, 123.57.105.16
+
+check_url = http://app.bmb1688.com/cmd/v2/check_update
+
