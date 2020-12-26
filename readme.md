@@ -28,6 +28,21 @@ cd home_path/go/src/updater
 go build -ldflags="-w -s" updater.go	# 编译生成updater.exe
 .\upx\upx.exe -9 updater.exe	# 对updater.exe 进行压缩
 ```
+**在任意路径编译：**
+
+1. 将 家目录/go/  目录下的src目录 整体移动到你们的售后端项目目录
+2. 在 售后端目录/src 目录下 只保留 updater 和 golang.org 目录，其余目录全部删掉
+3. 将 updater_build.bat 文件放在 售后端目录下 
+4. 在售后端目录下 执行updater_build.bat,即可编译成功
+
+**updater_build.bat**
+```cmd
+set GOPATH=%GOPATH%;%cd%
+cd src\updater
+go build -ldflags="-w -s" updater.go
+.\upx\upx.exe -9 updater.exe
+```
+
 
 ## 3、运行
  
@@ -164,4 +179,3 @@ beta_hosts = test_1.com, 192.168.114.1
 	5. 删除升级包 `updater_package`,删除`exists_files`所有文件
 	6. 成功升级 exit(0)
 
-	
