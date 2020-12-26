@@ -58,6 +58,7 @@ go build -ldflags="-w -s" updater.go	# 编译生成updater.exe
 cd home_path/go/src/updater       # 在updater目录下测试
 go run .\test_updater.go
 ```
+
 ## 6、退出代码
 
 ```bash
@@ -162,3 +163,5 @@ beta_hosts = test_1.com, 192.168.114.1
 	4. 解压升级包所有文件到一个临时目录 `tmp_extract_dir`，解压完毕后将`tmp_extract_dir` 里的所有内容移动到`installed_root`目录
 	5. 删除升级包 `updater_package`,删除`exists_files`所有文件
 	6. 成功升级 exit(0)
+
+	

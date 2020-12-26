@@ -15,6 +15,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"os/exec"
 	"os/user"
 	"path"
 	"path/filepath"
@@ -83,6 +84,7 @@ var (
 	Config          string
 	Version_path    string
 	Beta_hosts      string
+	Interval_check  string
 )
 
 type Version_list struct {
@@ -103,7 +105,8 @@ func Read_config(path string) map[string]string {
 		if Check_url == "" {
 			log.Printf("read error:", "路径错误,请将配置文件config.ini放在程序同一目录下,或手动指定正确的目录")
 			usage()
-			os.Exit(2)
+			// os.Exit(2)
+			panic("更新失败")
 		}
 		config["check_url"] = ""
 		config["beta_hosts"] = ""
@@ -118,8 +121,8 @@ func Read_config(path string) map[string]string {
 				break
 			}
 			log.Printf("read error:", "路径错误,请将配置文件config.ini放在程序同一目录下,或手动指定正确的目录")
-			os.Exit(2)
-			panic(err)
+			// os.Exit(2)
+			panic("更新失败")
 		}
 		s := strings.TrimSpace(string(b))
 		index := strings.Index(s, "=")
@@ -166,7 +169,6 @@ func Command_line() {
 				break
 			}
 			Current_version = string(data)
-
 			break
 		}
 	}
@@ -190,15 +192,20 @@ func Command_line() {
 			}
 		}
 	}
+	flag_prase()
+}
+
+func flag_prase() {
+
 	flag.StringVar(&Check_url, "check_url", Check_url, " ")
 	flag.StringVar(&Install_root, "install_root", Install_root, " ")
 	flag.StringVar(&Log_path, "log_path", Log_path, " ")
 	flag.StringVar(&Current_version, "current_version", Current_version, " ")
 	flag.StringVar(&Version_path, "version_path", "", " ")
+	flag.StringVar(&Interval_check, "interval_check", Interval_check, " ")
 	flag.StringVar(&Config, "config", Config, " ")
 	flag.Usage = usage
 	flag.Parse()
-
 }
 
 func usage() {
@@ -219,6 +226,8 @@ func usage() {
 	fmt.Println("		" + "(当前版本,版本信息的优先级：current_version > version_path > 安装目录下的version文件)")
 	fmt.Println("  " + "--version_path")
 	fmt.Println("		" + "(记录当前版本的文件,版本信息的优先级：current_version > version_path > 安装目录下的version文件))")
+	fmt.Println("  " + "--interval_check")
+	fmt.Println("		" + "(检测更新周期(h))")
 
 }
 
@@ -226,8 +235,8 @@ func Download_update_file(Install_root, url string) string {
 	res, err := http.Get(url)
 	if err != nil {
 		ErrorLogger.Printf("获取版本列表失败,请检查网络或Check_url")
-		os.Exit(2)
-		panic(err)
+		// os.Exit(2)
+		panic("更新失败")
 	}
 
 	_, fileName := filepath.Split(url)
@@ -263,14 +272,14 @@ func Get_check_version(url string) string {
 
 	if err != nil {
 		ErrorLogger.Printf("版本列表请求失败,请检查网络或check_url")
-		os.Exit(2)
-		panic(err)
+		// os.Exit(2)
+		panic("更新失败")
 	}
 	res, err1 := client.Do(reqest)
 	if err1 != nil {
 		ErrorLogger.Printf("版本列表请求失败,请检查网络或check_url")
-		os.Exit(2)
-		panic(err)
+		// os.Exit(2)
+		panic("更新失败")
 	}
 
 	defer res.Body.Close()
@@ -281,7 +290,9 @@ func Get_check_version(url string) string {
 	InfoLogger.Printf("%v", res.StatusCode)
 	if res.StatusCode != 200 {
 		ErrorLogger.Printf("error:", "获取版本列表失败,请检查网络或Check_url")
-		os.Exit(2)
+		// os.Exit(2)
+		panic("更新失败")
+
 	}
 	if err != nil {
 		panic(err)
@@ -298,8 +309,8 @@ func Get_latest_update(remote_version_json string) Version_list {
 	err1 := json.Unmarshal(jsonBlob, &version_list)
 	if err1 != nil {
 		ErrorLogger.Printf("error:", "获取版本列表失败,请检查网络或Check_url")
-		os.Exit(2)
-		panic(err1)
+		// os.Exit(2)
+		panic("更新失败")
 	}
 	InfoLogger.Printf("%s", version_list)
 
@@ -352,7 +363,7 @@ func Is_need_update(latest_version Version_list) bool {
 	need := false
 
 	if latest_version.Version == Current_version {
-		InfoLogger.Printf("已经是最新版本,准备退出")
+		InfoLogger.Printf("已经是最新版本,不用更新，准备退出")
 		return need
 	}
 
@@ -374,6 +385,9 @@ func Is_need_update(latest_version Version_list) bool {
 		can_update := lucky_number <= latest_version.Update_percent
 		InfoLogger.Printf("更新比例：", latest_version.Update_percent, " 本地种子：", lucky_number)
 		need = can_update
+		if need == false {
+			InfoLogger.Printf("lucky_number不在范围内,不用更新")
+		}
 	}
 	return need
 }
@@ -404,6 +418,9 @@ func Zip_depress(fileName string) {
 		return
 	}
 
+	os.RemoveAll(path.Join(path.Join(Install_root, ""), "tmp_extract"))
+	os.MkdirAll(path.Join(path.Join(Install_root, ""), "tmp_extract"), os.ModePerm)
+
 	for _, k := range r1.Reader.File {
 
 		if k.Flags == 0 {
@@ -416,7 +433,7 @@ func Zip_depress(fileName string) {
 		}
 
 		if k.FileInfo().IsDir() {
-			err := os.MkdirAll(path.Join(path.Join(Install_root, ""), k.Name), os.ModePerm)
+			err := os.MkdirAll(path.Join(path.Join(Install_root, ""), "tmp_extract", k.Name), os.ModePerm)
 
 			if err != nil {
 				log.Fatal(err)
@@ -431,7 +448,7 @@ func Zip_depress(fileName string) {
 		defer r.Close()
 		InfoLogger.Printf("正在提取: ", k.Name)
 
-		fileName_zip := path.Join(path.Join(Install_root, ""), k.Name)
+		fileName_zip := path.Join(path.Join(Install_root, ""), "tmp_extract", k.Name)
 
 		NewFile, err := os.Create(fileName_zip)
 		if err != nil {
@@ -447,6 +464,12 @@ func Zip_depress(fileName string) {
 		ErrorLogger.Printf("close file err=", err)
 	}
 
+	filepathNames, _ := filepath.Glob(path.Join(path.Join(Install_root, ""), "tmp_extract") + "/*")
+
+	for i := range filepathNames {
+		exec.Command("cmd", "/C", "move", filepathNames[i], path.Join(Install_root, "")+"/").Run()
+	}
+	os.RemoveAll(path.Join(path.Join(Install_root, ""), "tmp_extract"))
 	err1 := os.RemoveAll(path.Join(filepath.Dir(path.Join(Install_root, "")), "zip_tmp"))
 	if err1 != nil {
 		log.Fatal(err1)
