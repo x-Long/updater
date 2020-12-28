@@ -465,10 +465,16 @@ func Zip_depress(fileName string) {
 	}
 
 	filepathNames, _ := filepath.Glob(path.Join(path.Join(Install_root, ""), "tmp_extract") + "/*")
-
-	for i := range filepathNames {
-		exec.Command("cmd", "/C", "move", filepathNames[i], path.Join(Install_root, "")+"/").Run()
+	if runtime.GOOS == "windows" {
+		for i := range filepathNames {
+			exec.Command("cmd", "/C", "move", filepathNames[i], path.Join(Install_root, "")+"/").Run()
+		}
+	} else {
+		for i := range filepathNames {
+			exec.Command("mv", filepathNames[i], path.Join(Install_root, "")+"/").Run()
+		}
 	}
+
 	os.RemoveAll(path.Join(path.Join(Install_root, ""), "tmp_extract"))
 	err1 := os.RemoveAll(path.Join(filepath.Dir(path.Join(Install_root, "")), "zip_tmp"))
 	if err1 != nil {
