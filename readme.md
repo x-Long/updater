@@ -23,25 +23,8 @@ git clone https://github.com/x-Long/updater
 
 ## 2、编译
 
-```bash
-cd home_path/go/src/updater
-go build -ldflags="-w -s" updater.go	# 编译生成updater.exe
-.\upx\upx.exe -9 updater.exe	# 对updater.exe 进行压缩
-```
-**在任意路径编译：**
+执行项目根目录下的脚本 `updater_build.bat` 即可编译成功
 
-1. 将 家目录/go/  目录下的src目录 整体移动到你们的客户端项目目录
-2. 在 客户端目录/src 目录下 只保留 updater 和 golang.org 目录，其余目录全部删掉
-3. 将 updater_build.bat 文件放在 客户端目录下 
-4. 在客户端目录下 执行updater_build.bat,即可编译成功
-
-**updater_build.bat**
-```cmd
-set GOPATH=%GOPATH%;%cd%
-cd src\updater
-go build -ldflags="-w -s" updater.go
-.\upx\upx.exe -9 updater.exe
-```
 
 
 ## 3、运行

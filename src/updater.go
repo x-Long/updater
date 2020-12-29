@@ -3,7 +3,7 @@ package main
 import "os"
 import "path"
 import "path/filepath"
-import . "updater/tools"
+import . "tools"
 import "strings"
 import "time"
 import "strconv"
