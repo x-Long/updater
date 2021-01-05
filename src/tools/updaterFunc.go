@@ -271,23 +271,23 @@ func Get_http_header() string {
 	InfoLogger.Printf("生成http头部...")
 	hostname, _ := os.Hostname()
 	InfoLogger.Printf("http头部生成成功")
-	os_version:=""
+	os_version := ""
 
 	if runtime.GOOS == "windows" {
-		cmd:=exec.Command("cmd", "/C", "ver")
+		cmd := exec.Command("cmd", "/C", "ver")
 		// cmd.Run()只返回err
 		// cmd.Output()返回字节数组结果和err
-		output,_:= cmd.Output()
-		os_version=string(output)[strings.Index(string(output), "["):]
-		index1:=strings.Index(os_version, " ")
-		index2:=strings.Index(os_version, ".")
-		os_version="windows "+os_version[index1+1:index2]
-	}else {
-		sh:=exec.Command("cat","/etc/issue")
-		output,_:= sh.Output()
-		os_version=string(output)
-		index:=strings.Index(os_version, " ")
-		os_version=os_version[:index+1]+os_version[index+1:][:strings.Index(os_version[index+1:], " ")]
+		output, _ := cmd.Output()
+		os_version = string(output)[strings.Index(string(output), "["):]
+		index1 := strings.Index(os_version, " ")
+		index2 := strings.Index(os_version, ".")
+		os_version = "windows " + os_version[index1+1:index2]
+	} else {
+		sh := exec.Command("cat", "/etc/issue")
+		output, _ := sh.Output()
+		os_version = string(output)
+		index := strings.Index(os_version, " ")
+		os_version = os_version[:index+1] + os_version[index+1:][:strings.Index(os_version[index+1:], " ")]
 	}
 
 	return "audit-client-" + Current_version + " OS:" + os_version + " COMPUTER_NAME:" + hostname
@@ -306,7 +306,7 @@ func Get_check_version(url string) string {
 		// os.Exit(2)
 		panic("更新失败")
 	}
-	res, err1 := client.Do(reqest)   
+	res, err1 := client.Do(reqest)
 	if err1 != nil {
 		ErrorLogger.Printf("版本列表请求失败,请检查网络或check_url")
 		// os.Exit(2)
