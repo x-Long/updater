@@ -46,11 +46,14 @@ var (
 
 func Log_init() {
 	var err error
-	logFile, err = os.OpenFile(Log_path, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
-	if err != nil {
-		// log.Println("create log file err %+v", err)
-		log.Println("未指定日志文件或日志文件不存在，下面将转为标准输出")
-		logFile = os.Stdout
+	logFile := os.Stdout
+	if Log_path != "" {
+		logFile, err = os.OpenFile(Log_path, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
+		if err != nil {
+			// log.Println("create log file err %+v", err)
+			log.Println("未指定日志文件或日志文件不存在，下面将转为标准输出")
+			logFile = os.Stdout
+		}
 	}
 	debugLogger = log.New(logFile, preDebug, flag1)
 	InfoLogger = log.New(logFile, preInfo, flag1)
